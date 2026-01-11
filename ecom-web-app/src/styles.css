@@ -1,0 +1,5 @@
+/* Bootstrap is imported in angular.json */
+/* Custom minimal styles */
+body {
+  min-height: 100vh;
+}

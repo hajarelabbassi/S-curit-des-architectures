@@ -1,0 +1,72 @@
+<div class="py-5">
+  <section class="text-center mb-5">
+    <div class="container">
+
+      <h1 class="display-4 mb-3">Bill {{ bill?.id || billId }}</h1>
+      
+    </div>
+  </section>
+
+  <section class="container">
+    <div *ngIf="!bill" class="alert alert-info d-flex align-items-center gap-2">
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      Fetching order details...
+    </div>
+
+    <div *ngIf="bill" class="row g-3 mb-4">
+      <div class="col-md-4">
+        <article class="card shadow-sm">
+          <div class="card-body">
+            <p class="text-muted small mb-2 text-uppercase" style="font-size: 0.8rem; letter-spacing: 0.16em;">Order ID</p>
+            <p class="h5 mb-0 fw-bold">#{{ bill.id }}</p>
+          </div>
+        </article>
+      </div>
+     
+      <div class="col-md-4">
+        <article class="card shadow-sm">
+          <div class="card-body">
+            <p class="text-muted small mb-2 text-uppercase" style="font-size: 0.8rem; letter-spacing: 0.16em;">Customer ID</p>
+            <p class="h5 mb-0 fw-bold">{{ bill.customerId }}</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div *ngIf="bill?.productItems?.length; else emptyState" class="card shadow-sm">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of bill?.productItems">
+                <td>
+                  <p class="mb-0 fw-semibold">{{ item.product?.name || 'Product' }}</p>
+                  <p class="text-muted small mb-0">ID {{ item.product?.id || '—' }}</p>
+                </td>
+                <td>{{ item.quantity }} pcs</td>
+                <td>{{ item.unitPrice | number:'1.2-2' }} MAD</td>
+                <td class="fw-bold">{{ (item.quantity * item.unitPrice) | number:'1.2-2' }} MAD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="alert alert-warning">
+        No product items were found for this order.
+      </div>
+    </ng-template>
+  </section>
+</div>

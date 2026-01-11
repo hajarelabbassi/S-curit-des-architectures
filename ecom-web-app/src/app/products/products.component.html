@@ -1,0 +1,52 @@
+<div class="py-5">
+  <section class="text-center mb-5">
+    <div class="container">
+   
+      <h1 class="display-4 mb-3">Products</h1>
+      
+    </div>
+  </section>
+
+  <section class="container">
+    <div *ngIf="loading" class="alert alert-info d-flex align-items-center gap-2">
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      Syncing products from inventory service...
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <div class="row g-4" *ngIf="products && (products?._embedded?.products?.length || products?.length) && !loading">
+      <div class="col-md-6 col-lg-4" *ngFor="let p of (products?._embedded?.products || products || [])">
+        <article class="card h-100 shadow-sm">
+          <div class="position-relative">
+            <div class="card-img-top" 
+                 ></div>
+            <span class="badge bg-light text-dark position-absolute bottom-0 start-0 m-3">ID {{ p.id }}</span>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h3 class="card-title h5">{{ p.name }}</h3>
+            <p class="text-muted small mb-3">Premium catalog item</p>
+            <div class="d-flex justify-content-between mt-auto">
+              <div>
+                <p class="text-muted small mb-1 text-uppercase" style="font-size: 0.75rem;">Price</p>
+                <p class="h6 mb-0 fw-bold">{{ p.price | number:'1.2-2' }} MAD</p>
+              </div>
+              <div class="text-end">
+                <p class="text-muted small mb-1 text-uppercase" style="font-size: 0.75rem;">Stock</p>
+                <p class="h6 mb-0 fw-bold">{{ p.quantity }} pcs</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && (!products || !(products?._embedded?.products?.length || products?.length))" class="alert alert-warning">
+      No products found. Please seed the inventory service.
+    </div>
+  </section>
+</div>
